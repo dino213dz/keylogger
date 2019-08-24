@@ -6,8 +6,8 @@
 ## A propos:
 - Auteur: CHORFA Alla-eddine
 - Crée le: 23.08.2019
-- Edité le: 23.08.2019
-- Version: 0.1 Beta
+- Edité le: 24.08.2019
+- Version: 0.3 Beta
 - Contact: h4ckr213dz@gmail.com
 - Web: http://dino213dz.free.fr
 

